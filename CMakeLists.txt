@@ -55,9 +55,15 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "-pg ${CMAKE_MODULE_LINKER_FLAGS_DEBUG}")
 endif()
 
-set(BINDIR  "games"             CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game executable will be installed.")
-set(DATADIR "share/games/flare" CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game data files will be installed.")
-set(MANDIR  "share/man"         CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where manual pages will be installed.")
+if (NOT AROS)
+	set(BINDIR  "games"             CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game executable will be installed.")
+	set(DATADIR "share/games/flare" CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game data files will be installed.")
+	set(MANDIR  "share/man"         CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where manual pages will be installed.")
+else()
+	set(BINDIR  "${CMAKE_INSTALL_PREFIX}"             CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game executable will be installed.")
+	set(DATADIR "${CMAKE_INSTALL_PREFIX}" CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where game data files will be installed.")
+	set(MANDIR  "${CMAKE_INSTALL_PREFIX}/man"         CACHE STRING "Directory from CMAKE_INSTALL_PREFIX where manual pages will be installed.")
+endif()
 
 If(NOT IS_ABSOLUTE "${BINDIR}")
 	set(FLARE_EXECUTABLE_PATH ${CMAKE_INSTALL_PREFIX}/${BINDIR}/flare)
@@ -360,7 +366,7 @@ If (NOT SDL2MAIN_LIBRARY)
 	Set (SDL2MAIN_LIBRARY "")
 EndIf (NOT SDL2MAIN_LIBRARY)
 
-Target_Link_Libraries (flare ${CMAKE_LD_FLAGS} ${SDL2_LIBRARY} ${SDL2IMAGE_LIBRARY} ${SDL2MIXER_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2MAIN_LIBRARY})
+Target_Link_Libraries (flare ${CMAKE_LD_FLAGS} ${SDL2IMAGE_LIBRARY} ${SDL2MIXER_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_LIBRARY} ${SDL2MAIN_LIBRARY})
 
 
 # installing to the proper places
@@ -374,10 +380,12 @@ install(FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/distribution/flare.man"
 	DESTINATION ${MANDIR}/man6
 	RENAME flare.6)
-install(FILES
-	"${CMAKE_CURRENT_BINARY_DIR}/flare.desktop"
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
-install(FILES
-	"${CMAKE_CURRENT_SOURCE_DIR}/distribution/flare_logo_icon.svg"
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps
-	RENAME flare.svg)
+if (NOT AROS)
+	install(FILES
+		"${CMAKE_CURRENT_BINARY_DIR}/flare.desktop"
+		DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+	install(FILES
+		"${CMAKE_CURRENT_SOURCE_DIR}/distribution/flare_logo_icon.svg"
+		DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps
+		RENAME flare.svg)
+endif()
