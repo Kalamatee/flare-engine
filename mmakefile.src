@@ -19,8 +19,7 @@ USER_CXXFLAGS := \
 USER_LDFLAGS := -L$(AROS_CONTRIB_LIB) -static-libstdc++
 
 #MM- aros-flare-engine-libs : contrib-curl contrib-sdl2 development-SDL2_image-quick development-SDL2_mixer-quick development-SDL2_ttf-quick
-
-#MM aros-flare-engine : aros-flare-engine-libs iconset-Gorilla-contrib-icons-extras-games-aflare-engine iconset-Gorilla-contrib-games-flare-enginegame
+#MM aros-flare-engine : aros-flare-engine-libs iconset-Gorilla-contrib-games-flaregame
 
 SDL2AROS_INCLUDES := $(AROS_INCLUDES)/SDL2
 

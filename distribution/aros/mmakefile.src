@@ -1,0 +1,11 @@
+# Copyright © 2026, Nick "Kalamatee" Andrews.
+# $Id$
+
+include $(SRCDIR)/config/aros.cfg
+
+#MM- iconset-Gorilla-contrib-games-flaregame : flare-gorillaicons-game
+
+FLARENGINE_EXEDIR := $(AROS_CONTRIB)/Games/Rpg/Flare
+FLARENGINE_ICONS := Flare
+
+%build_icons mmake=flare-gorillaicons-game icons="$(FLARENGINE_ICONS)" dir=$(FLARENGINE_EXEDIR)
